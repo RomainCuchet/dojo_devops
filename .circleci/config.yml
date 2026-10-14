@@ -23,9 +23,7 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       # run tests!
-      - run:
-        name: Run ESLint
-        command: npx --yes eslint@8.57.1 .
+      - run: npx --yes eslint@8.57.1 .
       - run: npm run test
       - run: npm run build
       - run: npm audit || true
