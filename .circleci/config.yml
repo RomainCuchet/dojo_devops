@@ -23,7 +23,19 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       # run tests!
-      - run: npx --yes eslint@8.57.1 "src/**/*.js"
+      - run:
+        name: Run ESLint
+        command: |
+          npx --yes --package eslint@8.57.1 --package @typescript-eslint/parser@7.18.0 --package @typescript-eslint/eslint-plugin@7.18.0 eslint \
+            --no-eslintrc \
+            --parser @typescript-eslint/parser \
+            --parser-options '{"ecmaVersion":2021,"sourceType":"module","ecmaFeatures":{"jsx":true}}' \
+            --plugin @typescript-eslint \
+            --env node,es2021 \
+            --rule 'no-undef: off' \
+            --rule '@typescript-eslint/no-unused-vars: warn' \
+            --ext .ts,.tsx \
+            src/
       - run: npm run test
       - run: npm run build
       - run: npm audit || true
